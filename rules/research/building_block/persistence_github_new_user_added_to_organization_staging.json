@@ -1,0 +1,86 @@
+{
+    "attributes": {
+        "author": [
+            "Acme Security Engineering"
+        ],
+        "building_block_type": "default",
+        "description": "A new user was added to a GitHub organization. Tuned for the Acme Research staging environment.",
+        "from": "now-9m",
+        "index": [
+            "acme-research-staging-logs-github.audit-*"
+        ],
+        "language": "eql",
+        "license": "Elastic License v2",
+        "name": "Acme Research (Staging): New User Added To GitHub Organization",
+        "query": "configuration where event.dataset == \"github.audit\" and event.action == \"org.add_member\"\n",
+        "related_integrations": [
+            {
+                "package": "github",
+                "version": ">=3.0.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": true,
+                "name": "event.action",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "event.dataset",
+                "type": "keyword"
+            }
+        ],
+        "risk_score": 21,
+        "rule_id": "348d47b2-68b7-5d9a-800d-204b8235ea7b",
+        "severity": "low",
+        "tags": [
+            "Domain: Cloud",
+            "Use Case: Threat Detection",
+            "Use Case: UEBA",
+            "Tactic: Persistence",
+            "Rule Type: BBR",
+            "Data Source: Github",
+            "Rule Type: Event Correlation (EQL)",
+            "Platform: GitHub",
+            "Domain: SaaS",
+            "Acme Business Unit: Research",
+            "Acme Environment: Staging",
+            "Source: Acme Rules Library"
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0003",
+                    "name": "Persistence",
+                    "reference": "https://attack.mitre.org/tactics/TA0003/"
+                },
+                "technique": [
+                    {
+                        "id": "T1098",
+                        "name": "Account Manipulation",
+                        "reference": "https://attack.mitre.org/techniques/T1098/",
+                        "subtechnique": [
+                            {
+                                "id": "T1098.001",
+                                "name": "Additional Cloud Credentials",
+                                "reference": "https://attack.mitre.org/techniques/T1098/001/"
+                            },
+                            {
+                                "id": "T1098.003",
+                                "name": "Additional Cloud Roles",
+                                "reference": "https://attack.mitre.org/techniques/T1098/003/"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "timestamp_override": "event.ingested",
+        "type": "eql",
+        "version": 1
+    },
+    "id": "348d47b2-68b7-5d9a-800d-204b8235ea7b_1",
+    "type": "security-rule"
+}

@@ -1,0 +1,126 @@
+{
+    "attributes": {
+        "author": [
+            "Acme Security Engineering"
+        ],
+        "building_block_type": "default",
+        "description": "Identifies use of at.exe to interact with the task scheduler on remote hosts. Remote task creations, modifications or execution could be indicative of adversary lateral movement. Tuned for the Acme Retail production environment.",
+        "from": "now-119m",
+        "index": [
+            "acme-retail-prod-endgame-*",
+            "acme-retail-prod-logs-endpoint.events.process-*",
+            "acme-retail-prod-logs-system.security*",
+            "acme-retail-prod-logs-windows.*",
+            "acme-retail-prod-winlogbeat-*"
+        ],
+        "interval": "60m",
+        "language": "eql",
+        "license": "Elastic License v2",
+        "name": "Acme Retail (Production): At.exe Command Lateral Movement",
+        "query": "process where host.os.type == \"windows\" and event.type == \"start\" and process.name : \"at.exe\" and process.args : \"\\\\\\\\*\"\n",
+        "related_integrations": [
+            {
+                "package": "endpoint",
+                "version": ">=9.0.0"
+            },
+            {
+                "package": "windows",
+                "version": ">=3.0.0"
+            },
+            {
+                "package": "system",
+                "version": ">=2.0.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": true,
+                "name": "event.type",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "host.os.type",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "process.args",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "process.name",
+                "type": "keyword"
+            }
+        ],
+        "risk_score": 21,
+        "rule_id": "731d7c07-7b45-52bf-ad0a-c94707198561",
+        "severity": "low",
+        "tags": [
+            "Domain: Endpoint",
+            "OS: Windows",
+            "Use Case: Threat Detection",
+            "Tactic: Lateral Movement",
+            "Data Source: Elastic Defend",
+            "Rule Type: BBR",
+            "Data Source: Elastic Endgame",
+            "Data Source: Windows Security Event Logs",
+            "Rule Type: Event Correlation (EQL)",
+            "Platform: Windows",
+            "Tactic: Execution",
+            "Acme Business Unit: Retail",
+            "Acme Environment: Production",
+            "Source: Acme Rules Library"
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0008",
+                    "name": "Lateral Movement",
+                    "reference": "https://attack.mitre.org/tactics/TA0008/"
+                },
+                "technique": [
+                    {
+                        "id": "T1021",
+                        "name": "Remote Services",
+                        "reference": "https://attack.mitre.org/techniques/T1021/"
+                    }
+                ]
+            },
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0002",
+                    "name": "Execution",
+                    "reference": "https://attack.mitre.org/tactics/TA0002/"
+                },
+                "technique": [
+                    {
+                        "id": "T1053",
+                        "name": "Scheduled Task/Job",
+                        "reference": "https://attack.mitre.org/techniques/T1053/",
+                        "subtechnique": [
+                            {
+                                "id": "T1053.002",
+                                "name": "At",
+                                "reference": "https://attack.mitre.org/techniques/T1053/002/"
+                            },
+                            {
+                                "id": "T1053.005",
+                                "name": "Scheduled Task",
+                                "reference": "https://attack.mitre.org/techniques/T1053/005/"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "timestamp_override": "event.ingested",
+        "type": "eql",
+        "version": 1
+    },
+    "id": "731d7c07-7b45-52bf-ad0a-c94707198561_1",
+    "type": "security-rule"
+}

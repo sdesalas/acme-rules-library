@@ -1,0 +1,93 @@
+{
+    "attributes": {
+        "author": [
+            "Acme Security Engineering"
+        ],
+        "building_block_type": "default",
+        "description": "Adversaries may abuse the WMI diagnostic tool, wbemtest.exe, to enumerate WMI object instances or invoke methods against local or remote endpoints. Tuned for the Acme Media production environment.",
+        "from": "now-119m",
+        "index": [
+            "acme-media-prod-endgame-*",
+            "acme-media-prod-logs-endpoint.events.process-*",
+            "acme-media-prod-logs-system.security*",
+            "acme-media-prod-logs-windows.*",
+            "acme-media-prod-winlogbeat-*"
+        ],
+        "interval": "60m",
+        "language": "eql",
+        "license": "Elastic License v2",
+        "name": "Acme Media (Production): WMI WBEMTEST Utility Execution",
+        "query": "process where host.os.type == \"windows\" and event.type == \"start\" and process.name : \"wbemtest.exe\"\n",
+        "related_integrations": [
+            {
+                "package": "endpoint",
+                "version": ">=9.0.0"
+            },
+            {
+                "package": "windows",
+                "version": ">=3.0.0"
+            },
+            {
+                "package": "system",
+                "version": ">=2.0.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": true,
+                "name": "event.type",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "host.os.type",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "process.name",
+                "type": "keyword"
+            }
+        ],
+        "risk_score": 21,
+        "rule_id": "29c2a852-cbaf-5a2f-8567-c43fb7fe4dcd",
+        "severity": "low",
+        "tags": [
+            "Domain: Endpoint",
+            "OS: Windows",
+            "Use Case: Threat Detection",
+            "Tactic: Execution",
+            "Data Source: Elastic Defend",
+            "Rule Type: BBR",
+            "Data Source: Elastic Endgame",
+            "Data Source: Windows Security Event Logs",
+            "Rule Type: Event Correlation (EQL)",
+            "Platform: Windows",
+            "Acme Business Unit: Media",
+            "Acme Environment: Production",
+            "Source: Acme Rules Library"
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0002",
+                    "name": "Execution",
+                    "reference": "https://attack.mitre.org/tactics/TA0002/"
+                },
+                "technique": [
+                    {
+                        "id": "T1047",
+                        "name": "Windows Management Instrumentation",
+                        "reference": "https://attack.mitre.org/techniques/T1047/"
+                    }
+                ]
+            }
+        ],
+        "timestamp_override": "event.ingested",
+        "type": "eql",
+        "version": 1
+    },
+    "id": "29c2a852-cbaf-5a2f-8567-c43fb7fe4dcd_1",
+    "type": "security-rule"
+}

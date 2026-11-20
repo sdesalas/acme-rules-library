@@ -1,0 +1,90 @@
+{
+    "attributes": {
+        "author": [
+            "Acme Security Engineering"
+        ],
+        "building_block_type": "default",
+        "description": "Identifies the deletion of Azure Recovery Services resources. Azure Recovery Services vaults contain data for copies of VMs, workloads, servers, and other resources regarding Infrastructure as a Service (IaaS). Adversaries may delete these recovery services to impact backup capabilities during stable operations or to inhibit disaster recovery services during ransom-based attacks or operational disruptions. Tuned for the Acme Logistics development environment.",
+        "from": "now-9m",
+        "index": [
+            "acme-logistics-dev-logs-azure.activitylogs-*",
+            "acme-logistics-dev-filebeat-*"
+        ],
+        "language": "kuery",
+        "license": "Elastic License v2",
+        "name": "Acme Logistics (Development): Azure Recovery Services Resource Deleted",
+        "query": "event.dataset:azure.activitylogs and\n    azure.activitylogs.operation_name:MICROSOFT.RECOVERYSERVICES/*/DELETE and\n    event.outcome:(Success or success)\n",
+        "references": [
+            "https://www.microsoft.com/en-us/security/blog/2023/07/25/storm-0501-ransomware-attacks-expanding-to-hybrid-cloud-environments/"
+        ],
+        "related_integrations": [
+            {
+                "integration": "activitylogs",
+                "package": "azure",
+                "version": ">=1.22.0"
+            },
+            {
+                "integration": "events",
+                "package": "azure",
+                "version": ">=1.22.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": false,
+                "name": "azure.activitylogs.operation_name",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "event.dataset",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "event.outcome",
+                "type": "keyword"
+            }
+        ],
+        "risk_score": 21,
+        "rule_id": "6817c565-ab49-5bbf-9d63-14bb64ddc066",
+        "severity": "low",
+        "tags": [
+            "Domain: Cloud",
+            "Domain: Storage",
+            "Data Source: Azure",
+            "Data Source: Azure Activity Logs",
+            "Use Case: Threat Detection",
+            "Tactic: Impact",
+            "Resources: Investigation Guide",
+            "Rule Type: BBR",
+            "Rule Type: Custom Query (KQL)",
+            "Platform: Azure",
+            "Acme Business Unit: Logistics",
+            "Acme Environment: Development",
+            "Source: Acme Rules Library"
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0040",
+                    "name": "Impact",
+                    "reference": "https://attack.mitre.org/tactics/TA0040/"
+                },
+                "technique": [
+                    {
+                        "id": "T1490",
+                        "name": "Inhibit System Recovery",
+                        "reference": "https://attack.mitre.org/techniques/T1490/"
+                    }
+                ]
+            }
+        ],
+        "timestamp_override": "event.ingested",
+        "type": "query",
+        "version": 1
+    },
+    "id": "6817c565-ab49-5bbf-9d63-14bb64ddc066_1",
+    "type": "security-rule"
+}

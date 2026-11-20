@@ -1,0 +1,74 @@
+{
+    "attributes": {
+        "author": [
+            "Acme Security Engineering"
+        ],
+        "building_block_type": "default",
+        "description": "A member was removed or their invitation to join was removed from a GitHub Organization. Tuned for the Acme Healthcare production environment.",
+        "from": "now-9m",
+        "index": [
+            "acme-healthcare-prod-logs-github.audit-*"
+        ],
+        "language": "eql",
+        "license": "Elastic License v2",
+        "name": "Acme Healthcare (Production): Member Removed From GitHub Organization",
+        "query": "configuration where event.dataset == \"github.audit\" and event.action == \"org.remove_member\"\n",
+        "related_integrations": [
+            {
+                "package": "github",
+                "version": ">=3.0.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": true,
+                "name": "event.action",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "event.dataset",
+                "type": "keyword"
+            }
+        ],
+        "risk_score": 21,
+        "rule_id": "53257d98-726f-5694-ae52-bfa3ed86f4b3",
+        "severity": "low",
+        "tags": [
+            "Domain: Cloud",
+            "Use Case: Threat Detection",
+            "Use Case: UEBA",
+            "Tactic: Impact",
+            "Rule Type: BBR",
+            "Data Source: Github",
+            "Rule Type: Event Correlation (EQL)",
+            "Platform: GitHub",
+            "Domain: SaaS",
+            "Acme Business Unit: Healthcare",
+            "Acme Environment: Production",
+            "Source: Acme Rules Library"
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0040",
+                    "name": "Impact",
+                    "reference": "https://attack.mitre.org/tactics/TA0040/"
+                },
+                "technique": [
+                    {
+                        "id": "T1531",
+                        "name": "Account Access Removal",
+                        "reference": "https://attack.mitre.org/techniques/T1531/"
+                    }
+                ]
+            }
+        ],
+        "timestamp_override": "event.ingested",
+        "type": "eql",
+        "version": 1
+    },
+    "id": "53257d98-726f-5694-ae52-bfa3ed86f4b3_1",
+    "type": "security-rule"
+}

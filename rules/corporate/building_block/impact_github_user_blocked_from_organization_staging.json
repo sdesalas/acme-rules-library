@@ -1,0 +1,74 @@
+{
+    "attributes": {
+        "author": [
+            "Acme Security Engineering"
+        ],
+        "building_block_type": "default",
+        "description": "A GitHub user was blocked from access to an organization. Tuned for the Acme Corporate IT staging environment.",
+        "from": "now-9m",
+        "index": [
+            "acme-corporate-staging-logs-github.audit-*"
+        ],
+        "language": "eql",
+        "license": "Elastic License v2",
+        "name": "Acme Corporate IT (Staging): GitHub User Blocked From Organization",
+        "query": "configuration where event.dataset == \"github.audit\" and event.action == \"org.block_user\"\n",
+        "related_integrations": [
+            {
+                "package": "github",
+                "version": ">=3.0.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": true,
+                "name": "event.action",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "event.dataset",
+                "type": "keyword"
+            }
+        ],
+        "risk_score": 21,
+        "rule_id": "8406cbc5-0738-5978-988b-e5b7285c05b4",
+        "severity": "low",
+        "tags": [
+            "Domain: Cloud",
+            "Use Case: Threat Detection",
+            "Use Case: UEBA",
+            "Tactic: Impact",
+            "Rule Type: BBR",
+            "Data Source: Github",
+            "Rule Type: Event Correlation (EQL)",
+            "Platform: GitHub",
+            "Domain: SaaS",
+            "Acme Business Unit: Corporate IT",
+            "Acme Environment: Staging",
+            "Source: Acme Rules Library"
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0040",
+                    "name": "Impact",
+                    "reference": "https://attack.mitre.org/tactics/TA0040/"
+                },
+                "technique": [
+                    {
+                        "id": "T1531",
+                        "name": "Account Access Removal",
+                        "reference": "https://attack.mitre.org/techniques/T1531/"
+                    }
+                ]
+            }
+        ],
+        "timestamp_override": "event.ingested",
+        "type": "eql",
+        "version": 1
+    },
+    "id": "8406cbc5-0738-5978-988b-e5b7285c05b4_1",
+    "type": "security-rule"
+}

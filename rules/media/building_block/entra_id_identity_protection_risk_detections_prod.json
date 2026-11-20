@@ -1,0 +1,64 @@
+{
+    "attributes": {
+        "author": [
+            "Acme Security Engineering"
+        ],
+        "building_block_type": "default",
+        "description": "Identifies Microsoft Entra ID Protection sign-in risk detections triggered by a range of risk events such as anonymized IP addresses, password spray attacks, impossible travel, token anomalies, and more. These detections are often early indicators of potential account compromise or malicious sign-in behavior. This is a promotion rule intended to surface all Entra ID sign-in risk events for further investigation and correlation with other identity-related activity. This is a building block rule that is used to collect all Microsoft Entra ID Protection sign-in or user risk detections. It is not intended to be used as a standalone detection. Tuned for the Acme Media production environment.",
+        "from": "now-9m",
+        "index": [
+            "acme-media-prod-logs-azure.identity_protection-*"
+        ],
+        "language": "kuery",
+        "license": "Elastic License v2",
+        "name": "Acme Media (Production): Entra ID Protection - Risk Detection",
+        "query": "event.dataset: \"azure.identity_protection\"\n",
+        "references": [
+            "https://learn.microsoft.com/en-us/entra/id-protection/concept-identity-protection-risks#risk-types-and-detection"
+        ],
+        "related_integrations": [
+            {
+                "integration": "adlogs",
+                "package": "azure",
+                "version": ">=1.22.0"
+            },
+            {
+                "integration": "events",
+                "package": "azure",
+                "version": ">=1.22.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": true,
+                "name": "event.dataset",
+                "type": "keyword"
+            }
+        ],
+        "risk_score": 47,
+        "rule_id": "4b348596-091a-5904-8920-6f169f099260",
+        "setup": "",
+        "severity": "medium",
+        "tags": [
+            "Domain: Cloud",
+            "Data Source: Azure",
+            "Data Source: Microsoft Entra ID",
+            "Data Source: Microsoft Entra ID Protection",
+            "Data Source: Microsoft Entra ID Protection Logs",
+            "Use Case: Identity and Access Audit",
+            "Use Case: Threat Detection",
+            "Rule Type: BBR",
+            "Rule Type: Custom Query (KQL)",
+            "Platform: Entra ID",
+            "Domain: Identity",
+            "Acme Business Unit: Media",
+            "Acme Environment: Production",
+            "Source: Acme Rules Library"
+        ],
+        "timestamp_override": "event.ingested",
+        "type": "query",
+        "version": 1
+    },
+    "id": "4b348596-091a-5904-8920-6f169f099260_1",
+    "type": "security-rule"
+}

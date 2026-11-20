@@ -1,0 +1,140 @@
+{
+    "attributes": {
+        "author": [
+            "Acme Security Engineering"
+        ],
+        "building_block_type": "default",
+        "description": "Detects a first occurrence event for a personal access token (PAT) not seen in the last 14 days. Tuned for the Acme Logistics production environment.",
+        "from": "now-9m",
+        "history_window_start": "now-5d",
+        "index": [
+            "acme-logistics-prod-logs-github.audit-*"
+        ],
+        "language": "kuery",
+        "license": "Elastic License v2",
+        "name": "Acme Logistics (Production): First Occurrence GitHub Event for a Personal Access Token (PAT)",
+        "new_terms_fields": [
+            "github.hashed_token",
+            "event.action"
+        ],
+        "query": "event.dataset:\"github.audit\" and event.category:\"configuration\" and\nevent.action:* and github.hashed_token:* and \ngithub.programmatic_access_type:(\"OAuth access token\" or \"Fine-grained personal access token\")\n",
+        "related_integrations": [
+            {
+                "package": "github",
+                "version": ">=3.0.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": true,
+                "name": "event.action",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "event.category",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "event.dataset",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "github.hashed_token",
+                "type": "keyword"
+            },
+            {
+                "ecs": false,
+                "name": "github.programmatic_access_type",
+                "type": "keyword"
+            }
+        ],
+        "risk_score": 21,
+        "rule_id": "4c3413d4-23f8-5602-bb34-8aec31f40070",
+        "severity": "low",
+        "tags": [
+            "Domain: Cloud",
+            "Use Case: Threat Detection",
+            "Use Case: UEBA",
+            "Tactic: Execution",
+            "Rule Type: BBR",
+            "Data Source: Github",
+            "Rule Type: New Terms",
+            "Platform: GitHub",
+            "Domain: SaaS",
+            "Tactic: Lateral Movement",
+            "Tactic: Persistence",
+            "Acme Business Unit: Logistics",
+            "Acme Environment: Production",
+            "Source: Acme Rules Library"
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0002",
+                    "name": "Execution",
+                    "reference": "https://attack.mitre.org/tactics/TA0002/"
+                },
+                "technique": [
+                    {
+                        "id": "T1648",
+                        "name": "Serverless Execution",
+                        "reference": "https://attack.mitre.org/techniques/T1648/"
+                    }
+                ]
+            },
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0008",
+                    "name": "Lateral Movement",
+                    "reference": "https://attack.mitre.org/tactics/TA0008/"
+                },
+                "technique": [
+                    {
+                        "id": "T1550",
+                        "name": "Use Alternate Authentication Material",
+                        "reference": "https://attack.mitre.org/techniques/T1550/",
+                        "subtechnique": [
+                            {
+                                "id": "T1550.001",
+                                "name": "Application Access Token",
+                                "reference": "https://attack.mitre.org/techniques/T1550/001/"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0003",
+                    "name": "Persistence",
+                    "reference": "https://attack.mitre.org/tactics/TA0003/"
+                },
+                "technique": [
+                    {
+                        "id": "T1098",
+                        "name": "Account Manipulation",
+                        "reference": "https://attack.mitre.org/techniques/T1098/",
+                        "subtechnique": [
+                            {
+                                "id": "T1098.001",
+                                "name": "Additional Cloud Credentials",
+                                "reference": "https://attack.mitre.org/techniques/T1098/001/"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "timestamp_override": "event.ingested",
+        "type": "new_terms",
+        "version": 1
+    },
+    "id": "4c3413d4-23f8-5602-bb34-8aec31f40070_1",
+    "type": "security-rule"
+}

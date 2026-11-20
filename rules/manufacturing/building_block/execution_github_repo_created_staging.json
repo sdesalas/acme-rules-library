@@ -1,0 +1,97 @@
+{
+    "attributes": {
+        "author": [
+            "Acme Security Engineering"
+        ],
+        "building_block_type": "default",
+        "description": "A new GitHub repository was created. Tuned for the Acme Manufacturing staging environment.",
+        "from": "now-9m",
+        "index": [
+            "acme-manufacturing-staging-logs-github.audit-*"
+        ],
+        "language": "eql",
+        "license": "Elastic License v2",
+        "name": "Acme Manufacturing (Staging): GitHub Repo Created",
+        "query": "configuration where event.dataset == \"github.audit\" and event.action == \"repo.create\"\n",
+        "related_integrations": [
+            {
+                "package": "github",
+                "version": ">=3.0.0"
+            }
+        ],
+        "required_fields": [
+            {
+                "ecs": true,
+                "name": "event.action",
+                "type": "keyword"
+            },
+            {
+                "ecs": true,
+                "name": "event.dataset",
+                "type": "keyword"
+            }
+        ],
+        "risk_score": 21,
+        "rule_id": "96eafc8d-9bed-5cdf-a35a-bac44ff5d48c",
+        "severity": "low",
+        "tags": [
+            "Domain: Cloud",
+            "Use Case: Threat Detection",
+            "Use Case: UEBA",
+            "Tactic: Execution",
+            "Rule Type: BBR",
+            "Data Source: Github",
+            "Rule Type: Event Correlation (EQL)",
+            "Platform: GitHub",
+            "Domain: SaaS",
+            "Tactic: Resource Development",
+            "Acme Business Unit: Manufacturing",
+            "Acme Environment: Staging",
+            "Source: Acme Rules Library"
+        ],
+        "threat": [
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0002",
+                    "name": "Execution",
+                    "reference": "https://attack.mitre.org/tactics/TA0002/"
+                },
+                "technique": [
+                    {
+                        "id": "T1648",
+                        "name": "Serverless Execution",
+                        "reference": "https://attack.mitre.org/techniques/T1648/"
+                    }
+                ]
+            },
+            {
+                "framework": "MITRE ATT&CK",
+                "tactic": {
+                    "id": "TA0042",
+                    "name": "Resource Development",
+                    "reference": "https://attack.mitre.org/tactics/TA0042/"
+                },
+                "technique": [
+                    {
+                        "id": "T1583",
+                        "name": "Acquire Infrastructure",
+                        "reference": "https://attack.mitre.org/techniques/T1583/",
+                        "subtechnique": [
+                            {
+                                "id": "T1583.006",
+                                "name": "Web Services",
+                                "reference": "https://attack.mitre.org/techniques/T1583/006/"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "timestamp_override": "event.ingested",
+        "type": "eql",
+        "version": 1
+    },
+    "id": "96eafc8d-9bed-5cdf-a35a-bac44ff5d48c_1",
+    "type": "security-rule"
+}

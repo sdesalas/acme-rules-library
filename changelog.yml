@@ -1,0 +1,6 @@
+# newer versions go on top
+- version: 1.0.0
+  changes:
+    - description: Initial release with 40,000 rules across 8 business units and 3 environments
+      type: enhancement
+      link: https://github.com/sdesalas/acme-rules-library
